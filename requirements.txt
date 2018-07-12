@@ -1,0 +1,7 @@
+Pillow
+requests
+flask==0.12.2
+flask_migrate==2.1.0
+flask_restplus==0.10
+flask_script==2.0.5
+flask_sqlalchemy==2.2
