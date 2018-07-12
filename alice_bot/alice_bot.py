@@ -196,8 +196,8 @@ def calculate_score(cards):
     score = 0
     aces = 0
     for card in cards:
-        score += card.value
-        if 'T' in card.key:
+        score += card[1]
+        if 'T' in card[0]:
             aces += 1
     if score > 21 and aces > 0:
         for i in range(0, aces):
@@ -216,7 +216,7 @@ def opponent_cards_as_str(id):
 
 def get_card(deck):
     item = random.choice(deck.items())
-    del deck[item.key]
+    del deck[item[0]]
     return item
 
 
