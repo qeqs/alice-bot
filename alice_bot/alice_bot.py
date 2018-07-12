@@ -206,12 +206,12 @@ def calculate_score(cards):
 
 def your_cards_as_str(id):
     cards = sessionStorage[id]["cards"]
-    return 'Your cards: %s' % [card.key for card in cards].__str__()
+    return 'Your cards: %s' % [card[0] for card in cards].__str__()
 
 
 def opponent_cards_as_str(id):
     cards = sessionStorage[id]["opponent_cards"]
-    return 'Opponent cards: %s' % [card.key for card in cards].__str__()
+    return 'Opponent cards: %s' % [card[0] for card in cards].__str__()
 
 
 def get_card(deck):
