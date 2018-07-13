@@ -64,7 +64,7 @@ deck = {
 }
 
 
-@app.route(''/'', methods=['POST'])
+@app.route('/', methods=['POST'])
 def main():
     logging.info('Request: %r', request.json)
 
