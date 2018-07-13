@@ -81,7 +81,8 @@ def main():
     return json.dumps(
         response,
         ensure_ascii=False,
-        indent=2
+        indent=2,
+        encoding='utf-8'
     )
 
 
