@@ -1,11 +1,11 @@
 # coding=utf-8
 from __future__ import unicode_literals
 import json
-import codecs
 import logging
 import random
 from copy import copy
 
+import flask
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -76,14 +76,15 @@ def main():
     }
 
     handle(request.json, response)
-
     logging.info('Response: %r', response)
-
-    return json.dumps(
+    resp = flask.Response(json.dumps(
         response,
         ensure_ascii=False,
         indent=2
-    )
+    ))
+    resp.headers['Content-Type'] = 'application/json;charset=utf-8'
+    resp.headers['Accept-Charset'] = 'utf-8'
+    return resp
 
 
 def handle(req, res):
@@ -95,7 +96,6 @@ def handle(req, res):
             'bet': 0,
             'is_started': False,
             'cards': [],
-            'current_deck': copy(deck),
             'opponent_cards': []
         }
 
@@ -113,7 +113,6 @@ def handle(req, res):
         sessionStorage[user_id]['score'] -= 10
         sessionStorage[user_id]['bet'] = 10
         sessionStorage[user_id]['current_deck'] = copy(deck)
-
         more(user_id)
         more(user_id)
         opponent_more(user_id)
