@@ -1,6 +1,7 @@
 # coding=utf-8
 from __future__ import unicode_literals
 import json
+import codecs
 import logging
 import random
 from copy import copy
@@ -117,9 +118,9 @@ def handle(req, res):
         more(user_id)
         opponent_more(user_id)
         opponent_more(user_id)
-        res['response']['text'] = ''%s = %s \n%s' % (your_cards_as_str(user_id),
-                                                     calculate_score(sessionStorage[user_id]['cards']),
-                                                     get_score(user_id))
+        res['response']['text'] = '%s = %s \n%s' % (your_cards_as_str(user_id),
+                                                    calculate_score(sessionStorage[user_id]['cards']),
+                                                    get_score(user_id))
         set_suggests(user_id, inGameButtons)
         res['response']['buttons'] = get_suggests(user_id)
         return
@@ -129,9 +130,9 @@ def handle(req, res):
         'еще'
     ]:
         more(user_id)
-        res['response']['text'] = ''%s = %s \n%s' % (your_cards_as_str(user_id),
-                                                     calculate_score(sessionStorage[user_id]['cards']),
-                                                     get_score(user_id))
+        res['response']['text'] = '%s = %s \n%s' % (your_cards_as_str(user_id),
+                                                    calculate_score(sessionStorage[user_id]['cards']),
+                                                    get_score(user_id))
         res['response']['buttons'] = get_suggests(user_id)
         return
 
@@ -141,7 +142,7 @@ def handle(req, res):
         'пас'
     ]:
         process_opponent(user_id)
-        text = ''%s = %s \n%s \n%s = %s' % (
+        text = '%s = %s \n%s \n%s = %s' % (
             your_cards_as_str(user_id), calculate_score(sessionStorage[user_id]['cards']), get_score(user_id),
             opponent_cards_as_str(user_id), calculate_score(sessionStorage[user_id]['opponent_cards'])
         )
