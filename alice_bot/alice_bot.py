@@ -5,8 +5,6 @@ import logging
 import random
 from copy import copy
 
-from PIL import Image
-
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -126,7 +124,6 @@ def handle(req, res):
         res['response']['buttons'] = get_suggests(user_id)
         return
 
-
     if req['request']['original_utterance'].lower() in [
         'ещё',
         'еще'
@@ -176,11 +173,6 @@ def get_suggests(id):
 
 def set_suggests(id, new_val):
     sessionStorage[id]['suggests'] = new_val
-
-
-def get_card_img(card):
-    img = Image.open('ImageName.jpg')
-    pass
 
 
 def more(id):
