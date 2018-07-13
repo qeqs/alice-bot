@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 sessionStorage = {}
 newGameButtons = ['Новая игра']
-inGameButtons = ["Ещё", "Хватит"]
+inGameButtons = ['Ещё', 'Хватит']
 deck = {
     '6♠': 6,
     '6♣': 6,
@@ -64,15 +64,15 @@ deck = {
 }
 
 
-@app.route("/", methods=['POST'])
+@app.route(''/'', methods=['POST'])
 def main():
     logging.info('Request: %r', request.json)
 
     response = {
-        "version": request.json['version'],
-        "session": request.json['session'],
-        "response": {
-            "end_session": False
+        'version': request.json['version'],
+        'session': request.json['session'],
+        'response': {
+            'end_session': False
         }
     }
 
@@ -108,8 +108,8 @@ def handle(req, res):
         'новая игра',
         'новая'
     ]:
-        sessionStorage[user_id]["cards"] = []
-        sessionStorage[user_id]["opponent_cards"] = []
+        sessionStorage[user_id]['cards'] = []
+        sessionStorage[user_id]['opponent_cards'] = []
         sessionStorage[user_id]['is_started'] = True
         sessionStorage[user_id]['score'] -= 10
         sessionStorage[user_id]['bet'] = 10
@@ -119,8 +119,8 @@ def handle(req, res):
         more(user_id)
         opponent_more(user_id)
         opponent_more(user_id)
-        res['response']['text'] = '%s = %s \n%s' % (your_cards_as_str(sessionStorage[user_id]["cards"]),
-                                                    calculate_score(sessionStorage[user_id]["cards"]),
+        res['response']['text'] = '%s = %s \n%s' % (your_cards_as_str(user_id),
+                                                    calculate_score(sessionStorage[user_id]['cards']),
                                                     get_score(user_id))
         res['response']['buttons'] = get_suggests(user_id)
         return
@@ -133,8 +133,8 @@ def handle(req, res):
         'еще'
     ]:
         more(user_id)
-        res['response']['text'] = '%s = %s \n%s' % (your_cards_as_str(sessionStorage[user_id]["cards"]),
-                                                    calculate_score(sessionStorage[user_id]["cards"]),
+        res['response']['text'] = '%s = %s \n%s' % (your_cards_as_str(user_id),
+                                                    calculate_score(sessionStorage[user_id]['cards']),
                                                     get_score(user_id))
         res['response']['buttons'] = get_suggests(user_id)
         return
@@ -146,8 +146,8 @@ def handle(req, res):
     ]:
         process_opponent(user_id)
         text = '%s = %s \n%s \n%s = %s' % (
-            your_cards_as_str(), calculate_score(sessionStorage[user_id]["cards"]), get_score(user_id),
-            opponent_cards_as_str(), calculate_score(sessionStorage[user_id]["opponent_cards"])
+            your_cards_as_str(user_id), calculate_score(sessionStorage[user_id]['cards']), get_score(user_id),
+            opponent_cards_as_str(user_id), calculate_score(sessionStorage[user_id]['opponent_cards'])
         )
         if calculate_result(user_id):
             sessionStorage[id]['score'] = sessionStorage[id]['bet'] * 2
@@ -162,7 +162,7 @@ def handle(req, res):
         res['response']['buttons'] = get_suggests(user_id)
         return
 
-    res['response']['text'] = "Я Вас не поняла"
+    res['response']['text'] = 'Я Вас не поняла'
     res['response']['buttons'] = get_suggests(user_id)
 
 
@@ -180,16 +180,16 @@ def set_suggests(id, new_val):
 
 
 def get_card_img(card):
-    img = Image.open("ImageName.jpg")
+    img = Image.open('ImageName.jpg')
     pass
 
 
 def more(id):
-    sessionStorage[id]["cards"].append(get_card(get_current_deck(id)))
+    sessionStorage[id]['cards'].append(get_card(get_current_deck(id)))
 
 
 def opponent_more(id):
-    sessionStorage[id]["opponent_cards"].append(get_card(get_current_deck(id)))
+    sessionStorage[id]['opponent_cards'].append(get_card(get_current_deck(id)))
 
 
 def calculate_score(cards):
@@ -202,15 +202,16 @@ def calculate_score(cards):
     if score > 21 and aces > 0:
         for i in range(0, aces):
             score -= 10
+    return score
 
 
 def your_cards_as_str(id):
-    cards = sessionStorage[id]["cards"]
+    cards = sessionStorage[id]['cards']
     return 'Your cards: %s' % [card[0] for card in cards]
 
 
 def opponent_cards_as_str(id):
-    cards = sessionStorage[id]["opponent_cards"]
+    cards = sessionStorage[id]['opponent_cards']
     return 'Opponent cards: %s' % [card[0] for card in cards]
 
 
@@ -229,12 +230,12 @@ def get_score(id):
 
 
 def process_opponent(id):
-    while calculate_score(sessionStorage[id]["opponent_cards"]) < 17 and \
-            len(sessionStorage[id]["opponent_cards"]) < 6:
+    while calculate_score(sessionStorage[id]['opponent_cards']) < 17 and \
+            len(sessionStorage[id]['opponent_cards']) < 6:
         opponent_more(id)
 
 
 def calculate_result(id):
-    op_score = calculate_score(sessionStorage[id]["opponent_cards"])
-    user_score = calculate_score(sessionStorage[id]["cards"])
-    return op_score > 21 or user_score > op_score and user_score <= 21
+    op_score = calculate_score(sessionStorage[id]['opponent_cards'])
+    user_score = calculate_score(sessionStorage[id]['cards'])
+    return op_score > 21 or op_score < user_score <= 21
