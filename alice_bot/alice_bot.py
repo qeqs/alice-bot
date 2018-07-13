@@ -15,50 +15,50 @@ sessionStorage = {}
 newGameButtons = ['Новая игра']
 inGameButtons = ['Ещё', 'Хватит']
 deck = {
-    u'6 пик': 6,
-    u'6 крести': 6,
-    u'6 черви': 6,
-    u'6 буби': 6,
+    '6 пик': 6,
+    '6 крести': 6,
+    '6 черви': 6,
+    '6 буби': 6,
 
-    u'7 пик': 7,
-    u'7 крести': 7,
-    u'7 черви': 7,
-    u'7 буби': 7,
+    '7 пик': 7,
+    '7 крести': 7,
+    '7 черви': 7,
+    '7 буби': 7,
 
-    u'8 пик': 8,
-    u'8 крести': 8,
-    u'8 черви': 8,
-    u'8 буби': 8,
+    '8 пик': 8,
+    '8 крести': 8,
+    '8 черви': 8,
+    '8 буби': 8,
 
-    u'9 пик': 9,
-    u'9 крести': 9,
-    u'9 черви': 9,
-    u'9 буби': 9,
+    '9 пик': 9,
+    '9 крести': 9,
+    '9 черви': 9,
+    '9 буби': 9,
 
-    u'10 пик': 10,
-    u'10 крести': 10,
-    u'10 черви': 10,
-    u'10 буби': 10,
+    '10 пик': 10,
+    '10 крести': 10,
+    '10 черви': 10,
+    '10 буби': 10,
 
-    u'Туз пик': 11,
-    u'Туз крести': 11,
-    u'Туз черви': 11,
-    u'Туз буби': 11,
+    'Туз пик': 11,
+    'Туз крести': 11,
+    'Туз черви': 11,
+    'Туз буби': 11,
 
-    u'Король пик': 4,
-    u'Король крести': 4,
-    u'Король черви': 4,
-    u'Король буби': 4,
+    'Король пик': 4,
+    'Король крести': 4,
+    'Король черви': 4,
+    'Король буби': 4,
 
-    u'Дама пик': 3,
-    u'Дама крести': 3,
-    u'Дама черви': 3,
-    u'Дама буби': 3,
+    'Дама пик': 3,
+    'Дама крести': 3,
+    'Дама черви': 3,
+    'Дама буби': 3,
 
-    u'Валет пик': 2,
-    u'Валет крести': 2,
-    u'Валет черви': 2,
-    u'Валет буби': 2,
+    'Валет пик': 2,
+    'Валет крести': 2,
+    'Валет черви': 2,
+    'Валет буби': 2,
 }
 
 
@@ -81,8 +81,7 @@ def main():
     return json.dumps(
         response,
         ensure_ascii=False,
-        indent=2,
-        encoding='utf-8'
+        indent=2
     )
 
 
@@ -99,7 +98,7 @@ def handle(req, res):
             'opponent_cards': []
         }
 
-        res['response']['text'] = u'Привет! %s' % get_score(user_id)
+        res['response']['text'] = 'Привет! %s' % get_score(user_id)
         res['response']['buttons'] = get_suggests(user_id)
         return
 
@@ -118,7 +117,7 @@ def handle(req, res):
         more(user_id)
         opponent_more(user_id)
         opponent_more(user_id)
-        res['response']['text'] = u'%s = %s \n%s' % (your_cards_as_str(user_id),
+        res['response']['text'] = ''%s = %s \n%s' % (your_cards_as_str(user_id),
                                                      calculate_score(sessionStorage[user_id]['cards']),
                                                      get_score(user_id))
         set_suggests(user_id, inGameButtons)
@@ -130,7 +129,7 @@ def handle(req, res):
         'еще'
     ]:
         more(user_id)
-        res['response']['text'] = u'%s = %s \n%s' % (your_cards_as_str(user_id),
+        res['response']['text'] = ''%s = %s \n%s' % (your_cards_as_str(user_id),
                                                      calculate_score(sessionStorage[user_id]['cards']),
                                                      get_score(user_id))
         res['response']['buttons'] = get_suggests(user_id)
@@ -142,15 +141,15 @@ def handle(req, res):
         'пас'
     ]:
         process_opponent(user_id)
-        text = u'%s = %s \n%s \n%s = %s' % (
+        text = ''%s = %s \n%s \n%s = %s' % (
             your_cards_as_str(user_id), calculate_score(sessionStorage[user_id]['cards']), get_score(user_id),
             opponent_cards_as_str(user_id), calculate_score(sessionStorage[user_id]['opponent_cards'])
         )
         if calculate_result(user_id):
             sessionStorage[user_id]['score'] = sessionStorage[user_id]['bet'] * 2
-            text += u'\nПобеда:)'
+            text += '\nПобеда:)'
         else:
-            text += u'\nПоражение:('
+            text += '\nПоражение:('
 
         sessionStorage[user_id]['is_started'] = False
         sessionStorage[user_id]['bet'] = 0
@@ -159,7 +158,7 @@ def handle(req, res):
         res['response']['buttons'] = get_suggests(user_id)
         return
 
-    res['response']['text'] = u'Я Вас не поняла'
+    res['response']['text'] = 'Я Вас не поняла'
     res['response']['buttons'] = get_suggests(user_id)
 
 
@@ -199,12 +198,12 @@ def calculate_score(cards):
 
 def your_cards_as_str(usr_id):
     cards = sessionStorage[usr_id]['cards']
-    return u'Ваши карты: %s' % [card[0] for card in cards]
+    return 'Ваши карты: %s' % [card[0] for card in cards]
 
 
 def opponent_cards_as_str(usr_id):
     cards = sessionStorage[usr_id]['opponent_cards']
-    return u'Карты противника: %s' % [card[0] for card in cards]
+    return 'Карты противника: %s' % [card[0] for card in cards]
 
 
 def get_card(deck):
@@ -218,7 +217,7 @@ def get_current_deck(usr_id):
 
 
 def get_score(usr_id):
-    return u'Ваш счет %s' % sessionStorage[usr_id]['score']
+    return 'Ваш счет %s' % sessionStorage[usr_id]['score']
 
 
 def process_opponent(usr_id):
