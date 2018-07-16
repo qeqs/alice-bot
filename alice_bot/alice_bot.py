@@ -117,7 +117,7 @@ def handle(req, res):
         more(user_id)
         opponent_more(user_id)
         opponent_more(user_id)
-        res['response']['text'] = '%s = %s \n%s' % (your_cards_as_str(user_id),
+        res['response']['text'] = '%s = %s  (%s)' % (your_cards_as_str(user_id),
                                                     calculate_score(sessionStorage[user_id]['cards']),
                                                     get_score(user_id))
         set_suggests(user_id, inGameButtons)
@@ -129,7 +129,7 @@ def handle(req, res):
         'еще'
     ]:
         more(user_id)
-        res['response']['text'] = '%s = %s \n%s' % (your_cards_as_str(user_id),
+        res['response']['text'] = '%s = %s  (%s)' % (your_cards_as_str(user_id),
                                                     calculate_score(sessionStorage[user_id]['cards']),
                                                     get_score(user_id))
         res['response']['buttons'] = get_suggests(user_id)
@@ -217,7 +217,7 @@ def get_current_deck(usr_id):
 
 
 def get_score(usr_id):
-    return 'Ваш счет %s' % sessionStorage[usr_id]['score']
+    return 'Счет %s' % sessionStorage[usr_id]['score']
 
 
 def process_opponent(usr_id):
