@@ -1,3 +1,4 @@
+pytest
 Pillow
 requests
 flask==0.12.2
